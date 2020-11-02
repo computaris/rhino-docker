@@ -1,0 +1,67 @@
+version: '3'
+services:
+  rhino1:
+    image: cts/mswrhino:2.7
+    build:
+      context: ./
+    volumes:
+       - ./logs1:/opt/opencloud/rhino/node/work/log
+       - ${PWD}/certs/rhino-server.keystore:/opt/opencloud/rhino/rhino-server.keystore
+       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/rhino-client.keystore
+       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/client/rhino-client.keystore
+    hostname: rhino1
+    container_name: rhino1
+    environment: 
+      - NODE_ID=101
+      - RHINO_START_ARGUMENTS=-k -l -s -p
+      - MANAGEMENT_DATABASE_HOST=postgres
+    depends_on:
+      - rhino-init
+    ports:
+     - "1199:1199"
+  rhino2:
+    image: cts/mswrhino:2.7
+    build:
+      context: ./
+    volumes:
+       - ${PWD}/logs2:/opt/opencloud/rhino/node/work/log
+       - ${PWD}/certs/rhino-server.keystore:/opt/opencloud/rhino/rhino-server.keystore
+       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/rhino-client.keystore
+       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/client/rhino-client.keystore
+    hostname: rhino2
+    container_name: rhino2
+    environment: 
+      - NODE_ID=102
+      - RHINO_START_ARGUMENTS=-k -l -s
+      - MANAGEMENT_DATABASE_HOST=postgres
+      - RMI_MBEAN_REGISTRY_PORT=1299
+      - JMX_SERVICE_PORT=1302
+      - RHINO_SSL_PORT=1303
+    depends_on:
+      - rhino-init
+    ports:
+     - "1299:1299"
+  rhino-init:
+    image: cts/mswrhino:2.7
+    hostname: rhino-init
+    container_name: rhino-init
+    environment: 
+      - MANAGEMENT_DATABASE_HOST=postgres
+    entrypoint: /opt/opencloud/rhino/bin/init-management-db.sh -v
+    depends_on:
+      - postgres
+  postgres:
+    image: "postgres"
+    hostname: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: rhino
+      POSTGRES_DB: rhino
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+volumes:
+  database-data: # named volumes can be managed easier using docker-compose
+
