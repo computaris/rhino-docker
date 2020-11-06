@@ -111,7 +111,7 @@ RUN useradd -M -d /opt/opencloud -u 1001 -U rhino ; \
     yum clean all
 
 # Copy the uncompressed Java Runtime from the builder image
-COPY --chown=rhino:rhino --from=builder $RHINO_BASE $RHINO_BASE
+COPY --chown=rhino:rhino --from=builder /opt/opencloud /opt/opencloud
 
 USER rhino:rhino
 
