@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BASEDIR=$(dirname "$0")
-${BASEDIR}/configure.sh
+RHINO_HOME=/opt/opencloud/rhino/node
 
 KEYSTORE_GENERATION_OUTPUT=$(${BASEDIR}/../generate-keystores.sh)
 

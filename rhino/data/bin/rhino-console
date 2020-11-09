@@ -1,6 +1,0 @@
-#!/bin/sh
-
-BASEDIR=$(dirname "$0")
-${BASEDIR}/configure.sh
-
-${BASEDIR}/../client/bin/rhino-console "$@"

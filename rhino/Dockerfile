@@ -49,55 +49,17 @@ RUN set -eux; \
     /tmp/rhino-install/rhino-install.sh -a -k -r /tmp/install.properties; \
     $RHINO_BASE/create-node.sh 101; \
     mv $RHINO_BASE/node-101/ $RHINO_BASE/node;\
-    ls -l /tmp ; \
     cp -r /tmp/bin $RHINO_BASE; \
     sed -i -e 's/node-101/node/g' ${RHINO_BASE}/node/config/config_variables; \
-    rm -r $RHINO_BASE/node/init.d /tmp/*
+    sed -i -e 's/root/rhino/g' ${RHINO_BASE}/node/config/config_variables; \
+    rm -r /tmp/*
 
 ## Get a fresh version for the final image
 
 FROM cts/oraclejdk:8
 
-ENV RHINO_VERSION=2.7.0.3 \
-    MANAGEMENT_DATABASE_NAME=rhino \
-    MANAGEMENT_DATABASE_HOST=localhost \
-    MANAGEMENT_DATABASE_PORT=5432 \
-    MANAGEMENT_DATABASE_USER=rhino \
-    MANAGEMENT_DATABASE_PASSWORD=password \
-    SESSION_OWNERSHIP_FACILITY_ENABLED=False \
-    REPLICATED_STORAGE_RESOURCE=DomainedMemoryDatabase \
-    CASSANDRA_CONTACT_POINTS=localhost \
-    CASSANDRA_PORT=9042 \
-    REMOTE_TIMER_SERVER_BASE_PORT=0 \
-    REMOTE_TIMER_SERVER_PORT_RANGE=0 \
-    RMI_MBEAN_REGISTRY_PORT=1199 \
-    JMX_SERVICE_PORT=1202 \
-    RHINO_SSL_PORT=1203 \
-    SNAPSHOT_BASEPORT=22000 \
-    HEAP_SIZE=3072m \
-    MAX_NEW_SIZE=512m \
-    NEW_SIZE=512m \
-    RHINO_CLIENT_STORE_PASS=changeit \
-    RHINO_SERVER_STORE_PASS=changeit \
-    RHINO_PASSWORD=password \
-    RHINO_USERNAME=admin \
-    LOCALIPS="*" \
-    RHINO_WATCHDOG_STUCK_INTERVAL=45000 \
-    RHINO_WATCHDOG_THREADS_THRESHOLD=50 \
-    SAVANNA_COMMS_MODE=MULTICAST \
-    SAVANNA_SCAST_BASE_PORT=12000 \
-    SAVANNA_SCAST_PORT_OFFSET=101 \
-    SAVANNA_CLUSTER_ID=100 \
-    SAVANNA_CLUSTER_ADDR=224.0.50.1 \
-    SAVANNA_MCAST_START=224.0.50.1 \
-    SAVANNA_MCAST_END=224.0.50.8 \
-    NODE_ID=101 \
-    RHINO_BASE=/opt/opencloud/rhino \
-    RHINO_HOME=/opt/opencloud/rhino/node \
-    RHINO_WORK_DIR=/opt/opencloud/rhino/node/work \
-    RHINO_WATCHDOG_DUMPTHREADS=/opt/opencloud/rhino/node/dumpthreads.sh \
-    # User name for the user which Rhino will run as.
-    RHINO_USER=rhino \
+# User name for the user which Rhino will run as.
+ENV RHINO_USER=rhino \
     # Rhino boot arguments.
     # Add '-q' to start the node as a quorum node.
     # Do NOT add '-p' to these arguments.
@@ -106,7 +68,7 @@ ENV RHINO_VERSION=2.7.0.3 \
     MAX_LOGS="-b 10" \
     MAX_SIZE="-m 100MB"
 
-RUN useradd -M -d /opt/opencloud -u 1001 -U rhino ; \
+RUN useradd -M -d /opt/opencloud -u 1000 -U rhino ; \
     yum -y install zip ; \
     yum clean all
 
