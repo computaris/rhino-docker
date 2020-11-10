@@ -69,7 +69,7 @@ ENV RHINO_USER=rhino \
     MAX_SIZE="-m 100MB"
 
 RUN useradd -M -d /opt/opencloud -u 1000 -U rhino ; \
-    yum -y install zip ; \
+    yum -y install zip lksctp-tools ; \
     yum clean all
 
 # Copy the uncompressed Java Runtime from the builder image
