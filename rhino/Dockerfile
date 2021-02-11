@@ -20,9 +20,13 @@
 #       $ bash build.sh
 #
 
-FROM cts/oraclejdk:8 as builder
+ARG BASE_IMAGE=cts/oraclejdk:8
+FROM $BASE_IMAGE as builder
 
 MAINTAINER Piotr Grabowski <github.com/pgrabowski>
+
+ARG RHINO_PKG=rhino-install-2.7.0.3.tar
+ARG RHINO_SHA256=7b9acc7d63996d49d77a2b4fcbb3c4ae2d7405779155f641984e08f1b2ddb1cd
 
 # Since the files is compressed as tar and zip first yum install unzip and tar
 RUN set -eux; \
@@ -34,9 +38,7 @@ RUN set -eux; \
     rm -rf /var/cache/yum
 
 
-ENV RHINO_PKG=rhino-install-2.7.0.3.tar \
-    RHINO_SHA256=7b9acc7d63996d49d77a2b4fcbb3c4ae2d7405779155f641984e08f1b2ddb1cd \
-    RHINO_BASE=/opt/opencloud/rhino
+ENV RHINO_BASE=/opt/opencloud/rhino
 
 COPY $RHINO_PKG /tmp/rhino.tar
 COPY data /tmp/
@@ -55,8 +57,8 @@ RUN set -eux; \
     rm -r /tmp/*
 
 ## Get a fresh version for the final image
-
-FROM cts/oraclejdk:8
+ARG BASE_IMAGE=cts/oraclejdk:8
+FROM $BASE_IMAGE
 
 # User name for the user which Rhino will run as.
 ENV RHINO_USER=rhino \
