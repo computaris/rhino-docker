@@ -14,7 +14,7 @@
 # -----------------------
 # Put all downloaded files in the same directory as this Dockerfile
 # Run:
-#      $ docker build -t cts/mswrhino:2.7 .
+#      $ docker build -t cts/mswrhino:2.7.0.4 .
 #
 # This command is already scripted in build.sh so you can alternatively run
 #       $ bash build.sh
@@ -25,8 +25,8 @@ FROM $BASE_IMAGE as builder
 
 MAINTAINER Piotr Grabowski <github.com/pgrabowski>
 
-ARG RHINO_PKG=rhino-install-2.7.0.3.tar
-ARG RHINO_SHA256=7b9acc7d63996d49d77a2b4fcbb3c4ae2d7405779155f641984e08f1b2ddb1cd
+ARG RHINO_PKG=rhino-install-2.7.0.4.tar
+ARG RHINO_SHA256=b3fbbd0c6020caead4c9949d43a4e0226f37e78f751b28538af1d9bfb15376fb
 
 # Since the files is compressed as tar and zip first yum install unzip and tar
 RUN set -eux; \
