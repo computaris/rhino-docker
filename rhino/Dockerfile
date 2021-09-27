@@ -2,37 +2,38 @@
 #
 # Licensed under the Apache License v 2.0 as shown at https://www.apache.org/licenses/LICENSE-2.0.
 #
-# This is the Dockerfile for Metaswitch Rhino TAS 2.7
+# This is the Dockerfile for Metaswitch Rhino TAS 3.0
 #
 # REQUIRED FILES TO BUILD THIS IMAGE
 # ----------------------------------
 #
-# (1) rhino-install-2.7.x.x.tar
+# (1) rhino-install-3.0.x.x.tar
 #     Download from https://docs.rhino.metaswitch.com/ocdoc/books/devportal-downloads/1.0/downloads-index/rhino.html
 #
 # HOW TO BUILD THIS IMAGE
 # -----------------------
 # Put all downloaded files in the same directory as this Dockerfile
 # Run:
-#      $ docker build -t cts/mswrhino:2.7.0.4 .
+#      $ docker build -t cts/mswrhino:3.0.0.12 .
 #
 # This command is already scripted in build.sh so you can alternatively run
 #       $ bash build.sh
 #
 
-ARG BASE_IMAGE=cts/oraclejdk:8
+ARG BASE_IMAGE=centos:7
 FROM $BASE_IMAGE as builder
 
 MAINTAINER Piotr Grabowski <github.com/pgrabowski>
 
-ARG RHINO_PKG=rhino-install-2.7.0.4.tar
-ARG RHINO_SHA256=b3fbbd0c6020caead4c9949d43a4e0226f37e78f751b28538af1d9bfb15376fb
+ARG RHINO_PKG=rhino-install-3.0.0.12.tar
+ARG RHINO_SHA256=83dc957de903e589b91dd41af414538694f8cbd8950cbad2e650c83e31cda14a
 
 # Since the files is compressed as tar and zip first yum install unzip and tar
 RUN set -eux; \
     yum install -y \
         unzip \
         tar \
+		java-11-openjdk-devel \
     ; \
     yum clean all ; \
     rm -rf /var/cache/yum
@@ -57,7 +58,7 @@ RUN set -eux; \
     rm -r /tmp/*
 
 ## Get a fresh version for the final image
-ARG BASE_IMAGE=cts/oraclejdk:8
+ARG BASE_IMAGE=centos:7
 FROM $BASE_IMAGE
 
 # User name for the user which Rhino will run as.
@@ -71,7 +72,7 @@ ENV RHINO_USER=rhino \
     MAX_SIZE="-m 100MB"
 
 RUN useradd -M -d /opt/opencloud -u 1000 -U rhino ; \
-    yum -y install zip lksctp-tools ; \
+    yum -y install zip lksctp-tools java-11-openjdk-devel; \
     yum clean all
 
 # Copy the uncompressed Java Runtime from the builder image

@@ -22,11 +22,11 @@ keytool -import -alias jmxr-ssl-client \
     -keystore certs/rhino-server.keystore \
     -storepass $1 -keypass $1 -noprompt
 
-${JAVA_HOME}/bin/keytool -export -alias jmxr-ssl-server \
+keytool -export -alias jmxr-ssl-server \
     -keystore certs/rhino-server.keystore \
     -storepass $1 -keypass $1 \
     |\
-${JAVA_HOME}/bin/keytool -import -alias jmxr-ssl-server \
+keytool -import -alias jmxr-ssl-server \
     -keystore certs/rhino-client.keystore \
     -storepass $2 -keypass $2 -noprompt
 
