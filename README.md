@@ -1,9 +1,6 @@
 # rhino-docker
 
-It's local docker-compose test
-
-
-How to run rhino-docker project locally:
+It's local docker-compose test to run it locally:
 1. Run ./generate-rhino-keystores.sh changeit changeit (to remove certs: rm -rf certs/)
 2. Download correct version of rhino e.g rhino-install-3.0.0.12
 3. Unzip it and copy rhino-install-3.0.0.12.tar to C:\Users\your_user\IdeaProjects\rhino-docker\rhino
