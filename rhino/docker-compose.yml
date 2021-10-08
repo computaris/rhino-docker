@@ -1,45 +1,45 @@
 version: '3'
 services:
   rhino1:
-    image: cts/mswrhino:2.7.0.4
+    image: cts/mswrhino:3.0.0.12
     build:
       context: ./
     volumes:
-       - ./logs1:/opt/opencloud/rhino/node/work/log
-       - ${PWD}/example/rhino1_config_variables:/opt/opencloud/rhino/node/config/config_variables
-       - ${PWD}/certs/rhino-server.keystore:/opt/opencloud/rhino/rhino-server.keystore
-       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/rhino-client.keystore
-       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/client/rhino-client.keystore
+      - ./logs1:/opt/opencloud/rhino/node/work/log
+      - ${PWD}/example/rhino1_config_variables:/opt/opencloud/rhino/node/config/config_variables
+      - ${PWD}/certs/rhino-server.keystore:/opt/opencloud/rhino/rhino-server.keystore
+      - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/rhino-client.keystore
+      - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/client/rhino-client.keystore
     hostname: rhino1
     container_name: rhino1
-    environment: 
+    environment:
       - RHINO_START_ARGUMENTS=-k -l -s -p
     depends_on:
       - rhino-init
     ports:
-     - "1199:1199"
+      - "1199:1199"
   rhino2:
-    image: cts/mswrhino:2.7.0.4
+    image: cts/mswrhino:3.0.0.12
     build:
       context: ./
     volumes:
-       - ${PWD}/logs2:/opt/opencloud/rhino/node/work/log
-       - ${PWD}/example/rhino2_config_variables:/opt/opencloud/rhino/node/config/config_variables
-       - ${PWD}/certs/rhino-server.keystore:/opt/opencloud/rhino/rhino-server.keystore
-       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/rhino-client.keystore
-       - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/client/rhino-client.keystore
+      - ${PWD}/logs2:/opt/opencloud/rhino/node/work/log
+      - ${PWD}/example/rhino2_config_variables:/opt/opencloud/rhino/node/config/config_variables
+      - ${PWD}/certs/rhino-server.keystore:/opt/opencloud/rhino/rhino-server.keystore
+      - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/rhino-client.keystore
+      - ${PWD}/certs/rhino-client.keystore:/opt/opencloud/rhino/client/rhino-client.keystore
     hostname: rhino2
     container_name: rhino2
-    environment: 
+    environment:
       - RHINO_START_ARGUMENTS=-k -l -s
     depends_on:
       - rhino-init
     ports:
-     - "1299:1299"
+      - "1299:1299"
   rhino-init:
-    image: cts/mswrhino:2.7.0.4
+    image: cts/mswrhino:3.0.0.12
     volumes:
-       - ${PWD}/example/rhino1_config_variables:/opt/opencloud/rhino/node/config/config_variables
+      - ${PWD}/example/rhino1_config_variables:/opt/opencloud/rhino/node/config/config_variables
     hostname: rhino-init
     container_name: rhino-init
     entrypoint: /opt/opencloud/rhino/node/init-management-db.sh -v

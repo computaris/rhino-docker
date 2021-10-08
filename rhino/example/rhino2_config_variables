@@ -1,7 +1,7 @@
 #This is parsed as a properties file AND as a shell script.
 #Spaces and other special characters are not supported.
 RHINO_HOME=/opt/opencloud/rhino
-JAVA_HOME=/usr/java/jdk-8
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 JVM_ARCH=64
 MANAGEMENT_DATABASE_NAME=rhino
 MANAGEMENT_DATABASE_HOST=postgres

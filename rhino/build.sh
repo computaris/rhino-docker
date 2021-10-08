@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t cts/mswrhino:2.7.0.4 .
+docker build -t cts/mswrhino:3.0.0.12 .
