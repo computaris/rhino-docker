@@ -29,7 +29,6 @@ RUN set -eux; \
     yum clean all && \
     rm -rf /var/cache/yum
 
-
 COPY $OCSS7_PKG /tmp/ocss7.zip
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -41,37 +40,28 @@ FROM centos:7
 
 ARG HOST_USER_UID=1000
 ARG HOST_USER_GID=1000
-ENV OCSS7_VERSION=4.0.0.2
-ENV PATH=${PATH}:/opt/ocss7/ocss7-${OCSS7_VERSION}/bin:/opt/ocss7/ocss7-${OCSS7_VERSION}/cli
+ENV PATH=${PATH}:/opt/ocss7/bin:/opt/ocss7/cli
 
 WORKDIR /tmp
 
 RUN set -eux && \
     yum install -y lksctp-tools which java-11-openjdk-devel && \
-    mkdir /opt/ocss7 && \
     echo 'Creating sgc user and group from host' && \
     groupadd -o -g $HOST_USER_GID sgc && \
-    useradd -o -lm -u $HOST_USER_UID -g $HOST_USER_GID sgc && \
-    chown -R sgc.sgc /opt/ocss7
+    useradd -o -lm -u $HOST_USER_UID -g $HOST_USER_GID sgc
 
 # to allow jvisualvm add following lines:
 # RUN yum install -y libXrender libXtst
 
 USER sgc
 
-COPY --chown=sgc:sgc --from=builder /tmp/ocss7 /opt/ocss7
-RUN mkdir -p /opt/ocss7/ocss7-${OCSS7_VERSION}/data && \
-    mkdir -p /opt/ocss7/ocss7-${OCSS7_VERSION}/logs && \
-    chmod a+x /opt/ocss7/ocss7-${OCSS7_VERSION}/bin/*
-
+COPY --chown=sgc:sgc --from=builder /tmp/ocss7/ocss7* /opt/ocss7
 
 WORKDIR /home/sgc
 
-VOLUME /opt/ocss7/ocss7-${OCSS7_VERSION}/config
-VOLUME /opt/ocss7/ocss7-${OCSS7_VERSION}/logs
-VOLUME /opt/ocss7/ocss7-${OCSS7_VERSION}/data
+VOLUME /opt/ocss7/config
+VOLUME /opt/ocss7/logs
 
-ENV CONFIG=/opt/ocss7/ocss7-${OCSS7_VERSION}/config
 ENV JAVA_HOME=/usr/lib/jvm/java
 
-CMD ["sh", "-c", "/opt/ocss7/ocss7-${OCSS7_VERSION}/bin/sgc foreground"]
+CMD ["sh", "-c", "/opt/ocss7/bin/sgc foreground"]
