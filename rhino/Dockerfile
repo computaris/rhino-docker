@@ -33,7 +33,8 @@ RUN set -eux; \
     yum install -y \
         unzip \
         tar \
-		java-11-openjdk-devel \
+	which \
+        java-11-openjdk-devel \
     ; \
     yum clean all ; \
     rm -rf /var/cache/yum
@@ -72,7 +73,7 @@ ENV RHINO_USER=rhino \
     MAX_SIZE="-m 100MB"
 
 RUN useradd -M -d /opt/opencloud -u 1000 -U rhino ; \
-    yum -y install zip lksctp-tools java-11-openjdk-devel; \
+    yum -y install zip which lksctp-tools java-11-openjdk-devel; \
     yum clean all
 
 # Copy the uncompressed Java Runtime from the builder image
