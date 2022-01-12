@@ -1,7 +1,7 @@
 FROM centos:7 as builder
 
-ARG REM_PKG=rhino-element-manager-3.0.0.1.zip
-ARG REM_SHA256=c4d654425d9bdf1b18fa7798f58a37c054d6c9d7463fc6e48a2f22baa63e311e
+ARG REM_PKG=rhino-element-manager-3.0.0.4.zip
+ARG REM_SHA256=f87bc6ead41687a482934cdcf15a66b779d804a054731dbe0eb55a007f56cbd8
 
 RUN set -eux; \
     yum install -y \
