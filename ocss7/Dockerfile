@@ -13,7 +13,7 @@
 # -----------------------
 # Put ocss7-package zip archive in the same directory as this Dockerfile
 # Run:
-#      $ docker build -t cts/ocss7:4.0.0.2 .
+#      $ docker build -t cts/ocss7:4.0.0.4 .
 #
 # This command is already scripted in build.sh so you can alternatively run
 #       $ bash build.sh
@@ -21,8 +21,8 @@
 
 FROM centos:7 as builder
 
-ARG OCSS7_PKG=ocss7-package-4.0.0.2.zip
-ARG OCSS7_SHA256=0c2397850bbc4d139b2f1e0c37f4939a9a82d1fd643fafa50dd8c1ad8ce22e64
+ARG OCSS7_PKG=ocss7-package-4.0.0.4.zip
+ARG OCSS7_SHA256=418c6b600e82ffe04bf03bb0ad66acff8ca6056138b6af14fd5fbae8f594e848
 
 RUN set -eux; \
     yum install -y unzip && \
