@@ -1,7 +1,7 @@
 version: '3'
 services:
   rhino1:
-    image: cts/mswrhino:3.0.0.12
+    image: cts/mswrhino:3.0.0.19
     build:
       context: ./
     volumes:
@@ -19,7 +19,7 @@ services:
     ports:
       - "1199:1199"
   rhino2:
-    image: cts/mswrhino:3.0.0.12
+    image: cts/mswrhino:3.0.0.19
     build:
       context: ./
     volumes:
@@ -37,7 +37,7 @@ services:
     ports:
       - "1299:1299"
   rhino-init:
-    image: cts/mswrhino:3.0.0.12
+    image: cts/mswrhino:3.0.0.19
     volumes:
       - ${PWD}/example/rhino1_config_variables:/opt/opencloud/rhino/node/config/config_variables
     hostname: rhino-init
